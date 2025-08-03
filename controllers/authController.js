@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Enquiry from "../models/Enquiry.js";
 import User from "../models/User.js";
 
 const login = async (req, res) => {
@@ -34,9 +35,6 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const { username, password } = req.body;
 
-  console.log("Username:", username);
-  console.log("Password:", password);
-
   try {
     const userExists = await User.findOne({ username });
     if (userExists)
@@ -66,4 +64,26 @@ const verify = (req, res) => {
   res.sendStatus(200);
 };
 
-export { login, logout, register, verify };
+const enquiries = (req, res) => {
+  const { name, email, contactnumber, service, message } = req.body;
+  try {
+    const newEnquiry = new Enquiry({
+      name,
+      email,
+      contactnumber,
+      service,
+      message,
+    });
+    newEnquiry.save();
+    res.status(200).json("Enquiry saved successfully");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const getenquiries = async (req, res) => {
+  const enquiries = await Enquiry.find().sort({ createdAt: -1 });
+  res.status(200).json(enquiries);
+};
+
+export { enquiries, getenquiries, login, logout, register, verify };

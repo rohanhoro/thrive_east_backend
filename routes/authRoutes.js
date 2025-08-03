@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  enquiries,
+  getenquiries,
   login,
   logout,
   register,
@@ -9,9 +11,14 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/login", login);
-router.post("/register", register);
-router.post("/logout", logout);
-router.get("/verify", authMiddleware, verify);
+//Authentication routes
+router.post("/auth/login", login);
+router.post("/auth/register", register);
+router.post("/auth/logout", logout);
+router.get("/auth/verify", authMiddleware, verify);
+
+//Enquiry routes
+router.post("/enquiries", enquiries);
+router.get("/getenquiries", getenquiries);
 
 export default router;
