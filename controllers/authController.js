@@ -86,4 +86,17 @@ const getenquiries = async (req, res) => {
   res.status(200).json(enquiries);
 };
 
-export { enquiries, getenquiries, login, logout, register, verify };
+const countNewEnquiries = async (req, res) => {
+  const counted = await Enquiry.countDocuments({ isRead: false });
+  res.status(200).json({ count: counted });
+};
+
+export {
+  countNewEnquiries,
+  enquiries,
+  getenquiries,
+  login,
+  logout,
+  register,
+  verify,
+};

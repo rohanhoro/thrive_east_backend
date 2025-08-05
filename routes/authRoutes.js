@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  countNewEnquiries,
   enquiries,
   getenquiries,
   login,
@@ -20,5 +21,6 @@ router.get("/auth/verify", authMiddleware, verify);
 //Enquiry routes
 router.post("/enquiries", enquiries);
 router.get("/getenquiries", getenquiries);
+router.get("/enquiries/count", countNewEnquiries);
 
 export default router;
