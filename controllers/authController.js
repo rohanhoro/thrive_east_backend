@@ -91,12 +91,33 @@ const countNewEnquiries = async (req, res) => {
   res.status(200).json({ count: counted });
 };
 
+const deleteEnquiries = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Enquiry.updateOne({ _id: id }, { isDeleted: true });
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json("Database error");
+  }
+};
+const restoreEnquiries = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Enquiry.updateOne({ _id: id }, { isDeleted: false });
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json("Database error");
+  }
+};
+
 export {
   countNewEnquiries,
+  deleteEnquiries,
   enquiries,
   getenquiries,
   login,
   logout,
   register,
+  restoreEnquiries,
   verify,
 };
